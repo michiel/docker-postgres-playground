@@ -8,6 +8,8 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=admin
     ports:
       - "8080:80"
+    volumes:
+      - "./resource/servers.json:/pgadmin4/servers.json"
   postgres:
     image: "postgres:11"
     environment:
@@ -15,6 +17,4 @@ services:
     ports:
       - "54320:5432"
     volumes:
-      - dbdata:/Users/michiel/docker-volumes/postgres-data
-volumes:
-  dbdata:
+      - ./volumes/datadir:/var/lib/postgresql/data
