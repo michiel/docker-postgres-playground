@@ -1,0 +1,13 @@
+version: "3"
+services:
+  db:
+    image: "postgres:11"
+    container_name: "postgres"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "54320:5432"
+    volumes:
+      - dbdata:/Users/michiel/docker-volumes/postgres-data
+volumes:
+  dbdata:
