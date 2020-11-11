@@ -1,7 +1,7 @@
 version: "3"
 services:
   pgadmin:
-    image: "dpage/pgadmin4"
+    image: "dpage/pgadmin4:4.15"
     environment:
       - PGADMIN_LISTEN_PORT=5050
       - PGADMIN_DEFAULT_EMAIL=${POSTGRES_USERNAME}
@@ -14,7 +14,8 @@ services:
       - "postgres"
   postgres:
     image: "postgres:11"
-    command: ["postgres", "-c", "log_statement=all"]
+    # Log all queries - very noisy
+    # command: ["postgres", "-c", "log_statement=all"]
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_TARGET_DB
