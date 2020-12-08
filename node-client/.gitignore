@@ -1,0 +1,2 @@
+prisma/*.db
+node_modules/

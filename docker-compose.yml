@@ -1,17 +1,5 @@
 version: "3"
 services:
-  pgadmin:
-    image: "dpage/pgadmin4:4.15"
-    environment:
-      - PGADMIN_LISTEN_PORT=5050
-      - PGADMIN_DEFAULT_EMAIL=${POSTGRES_USERNAME}
-      - PGADMIN_DEFAULT_PASSWORD=${POSTGRES_PASSWORD}
-    ports:
-      - 5050:5050
-    volumes:
-      - "./pgadmin/config/servers.json:/pgadmin4/servers.json"
-    depends_on:
-      - "postgres"
   postgres:
     image: "postgres:11"
     # Log all queries - very noisy
@@ -25,6 +13,31 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres/config/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
       - ./postgres/import:/import
+  pgadmin:
+    image: "dpage/pgadmin4:4.15"
+    environment:
+      - PGADMIN_LISTEN_PORT=5050
+      - PGADMIN_DEFAULT_EMAIL=${POSTGRES_USERNAME}
+      - PGADMIN_DEFAULT_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 5050:5050
+    volumes:
+      - "./pgadmin/config/servers.json:/pgadmin4/servers.json"
+    depends_on:
+      - postgres
+  graphql-engine:
+    image: hasura/graphql-engine:v1.3.3.cli-migrations-v2
+    # image: hasura/graphql-engine:v1.3.3
+    restart: always
+    ports:
+    - 8080:8080
+    depends_on:
+    - postgres
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_TARGET_DB}
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+    volumes:
+    # - ./hasura/metadata:/hasura-migrations
 volumes:
   postgres_data:
     driver_opts:

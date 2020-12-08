@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "tables": [
+    {
+      "table": {
+        "schema": "public",
+        "name": "Post"
+      },
+      "object_relationships": [
+        {
+          "name": "User",
+          "using": {
+            "foreign_key_constraint_on": "authorId"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "User"
+      },
+      "array_relationships": [
+        {
+          "name": "Posts",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "authorId",
+              "table": {
+                "schema": "public",
+                "name": "Post"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-# postgresql playground
+# postgresql data model
 
 ## Images
 
@@ -12,3 +12,12 @@
 | pgadmin4 | postgres | postgres | [http://localhost:5050](http://localhost:5050) |
 | postgres | postgres | postgres | postgres (internal)                            |
 
+
+
+## Prisma
+
+```
+cd node-client
+npm install
+npx prisma db push --preview-feature
+```
